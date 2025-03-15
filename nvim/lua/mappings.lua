@@ -32,3 +32,13 @@ map("n", "<Leader>ff", "<cmd>lua require'telescope.builtin'.find_files()<CR>", {
 map("n", "<Leader>fg", "<cmd>lua require'telescope.builtin'.live_grep()<CR>", { desc = "Telescope live_grep " })
 map("n", "<Leader>fb", "<cmd>lua require'telescope.builtin'.buffers()<CR>", { desc = "Telescope buffers " })
 map("n", "<Leader>fh", "<cmd>lua require'telescope.builtin'.help_tags()<CR>", { desc = "Telescope help tags " })
+map('n', '<leader>rs', ':RustLsp workspaceSymbol<CR>', { noremap = true, silent = true })
+
+local opts = { noremap = true, silent = true }
+
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+vim.api.nvim_set_keymap("n", "gI", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+

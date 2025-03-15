@@ -1,4 +1,32 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
+head	1.2;
+access;
+symbols;
+locks
+	djb:1.2; strict;
+comment	@# @;
+
+
+1.2
+date	2025.03.14.23.18.46;	author djb;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2025.03.14.23.13.47;	author djb;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 
 -- bootstrap lazy and all plugins
@@ -52,3 +80,23 @@ telescope.setup {
   }
 }
 
+-- Function to search Rust standard library and dependencies
+local function search_rust_sources()
+  local rust_src = vim.fn.systemlist("rustc --print sysroot")[1] .. "/lib/rustlib/src/rust"
+  require('telescope.builtin').find_files({
+    search_dirs = { "src", "target/debug/deps", "~/.cargo/registry/src", rust_src },
+  })
+end
+
+vim.api.nvim_set_keymap('n', '<leader>fr', '<cmd>lua search_rust_sources()<CR>', { noremap = true, silent = true })
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d41 24
+@

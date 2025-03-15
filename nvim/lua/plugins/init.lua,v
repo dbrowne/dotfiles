@@ -1,4 +1,32 @@
-return {
+head	1.2;
+access;
+symbols;
+locks
+	djb:1.2; strict;
+comment	@# @;
+
+
+1.2
+date	2025.03.14.23.10.46;	author djb;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2025.02.12.07.07.11;	author djb;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@return {
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
@@ -11,6 +39,9 @@ return {
     config = function()
       require "configs.lspconfig"
     end,
+  },
+  {
+    'wakatime/vim-wakatime',
   },
   {
     'mrcjkb/rustaceanvim',
@@ -103,3 +134,16 @@ return {
    	},
    },
 }
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d48 6
+d75 1
+a75 1
+    'rcarriga/nvim-dap-ui', 
+@
