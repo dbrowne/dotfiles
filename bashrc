@@ -132,8 +132,12 @@ alias gL='git log --graph --full-history --all --color --pretty=format:"%x1b[31m
 
 alias gG='git log --oneline --abbrev-commit --all --graph --decorate --color'
 
+alias gSL='git stash list --pretty=format:"%C(red)%h%C(reset) - %C(dim yellow)(%C(bold magenta)%gd%C(dim yellow))%C(reset) %<(70,trunc)%s %C(green)(%cr) %C(bold blue)<%an>%C(reset)"'
+alias gBL='git for-each-ref --sort=committerdate refs/heads/ --format='\''%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'\'''
+
 alias GR='cd ~/GRepository'
 alias gT='git tag -l -n99'
+alias gRS='git remote show origin'
 
 export PATH=$PATH:/home/djb/GRepository/git-radar/:.
 
