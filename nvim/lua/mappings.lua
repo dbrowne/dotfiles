@@ -42,3 +42,20 @@ vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts
 vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gI", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 
+
+local dap = require('dap')
+local dapui = require('dapui')
+
+vim.keymap.set('n', '<F5>', function() dap.continue() end, { desc = "Start/Continue Debugging" })
+vim.keymap.set('n', '<F10>', function() dap.step_over() end, { desc = "Step Over" })
+vim.keymap.set('n', '<F11>', function() dap.step_into() end, { desc = "Step Into" })
+vim.keymap.set('n', '<F12>', function() dap.step_out() end, { desc = "Step Out" })
+vim.keymap.set('n', '<C-b>', function() dap.toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
+vim.keymap.set('n', '<C-S-b>', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, { desc = "Set Conditional Breakpoint" })
+vim.keymap.set('n', '<C-r>', function() dap.run_last() end, { desc = "Restart Debugging" })
+vim.keymap.set('n', '<C-q>', function() dap.terminate() end, { desc = "Quit Debugging" })
+
+-- DAP UI Controls
+vim.keymap.set('n', '<F8>', function() dapui.open() end, { desc = "Open Debug UI" })
+vim.keymap.set('n', '<F9>', function() dapui.close() end, { desc = "Close Debug UI" })
+vim.keymap.set('n', '<Leader>d', function() dapui.toggle() end, { desc = "Toggle Debug UI" })
