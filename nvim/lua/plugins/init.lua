@@ -5,13 +5,13 @@ return {
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"
     end,
   },
+
   {
     'mrcjkb/rustaceanvim',
     version = '^5', -- Recommended
@@ -22,9 +22,8 @@ return {
       local codelldb = mason_registry.get_package("codelldb")
       local extension_path = codelldb:get_install_path() .. "/extension/"
       local codelldb_path = extension_path .. "adapter/codelldb"
-      -- local liblldb_path = extension_path.. "lldb/lib/liblldb.dylib"
-	-- If you are on Linux, replace the line above with the line below:
-      local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+      local liblldb_path = extension_path .. "lldb/lib/liblldb.so" -- Linux users, change accordingly
+
       local cfg = require('rustaceanvim.config')
 
       vim.g.rustaceanvim = {
@@ -42,17 +41,20 @@ return {
       vim.g.rustfmt_autosave = 1
     end
   },
-{
+
+  {
     "nvzone/typr",
     dependencies = "nvzone/volt",
     opts = {},
     cmd = { "Typr", "TyprStats" },
-},
+  },
 
   {
     'mfussenegger/nvim-dap',
     config = function()
-			local dap, dapui = require("dap"), require("dapui")
+      local dap, dapui = require("dap"), require("dapui")
+
+      -- Automatically open and close the DAP UI
       dap.listeners.before.attach.dapui_config = function()
         dapui.open()
       end
@@ -65,15 +67,37 @@ return {
       dap.listeners.before.event_exited.dapui_config = function()
         dapui.close()
       end
-		end,
+
+      -- Configure DAP Adapter for Rust (codelldb)
+      dap.adapters.lldb = {
+        type = "executable",
+        command = require('mason-registry').get_package("codelldb"):get_install_path() .. "/extension/adapter/codelldb",
+        name = "lldb",
+      }
+
+      -- DAP Configurations for Rust
+      dap.configurations.rust = {
+        {
+          name = "Launch Rust Program",
+          type = "lldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = {},
+        },
+      }
+    end,
   },
 
   {
     'rcarriga/nvim-dap-ui',
     dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
     config = function()
-			require("dapui").setup()
-		end,
+      require("dapui").setup()
+    end,
   },
 
   {
@@ -94,12 +118,12 @@ return {
   },
 
   {
-   	'nvim-treesitter/nvim-treesitter',
-   	oopts = {
-   		ensure_installed = {
-   			"vim", "lua", "vimdoc",
+    'nvim-treesitter/nvim-treesitter',
+    opts = {
+      ensure_installed = {
+        "vim", "lua", "vimdoc",
         "html", "css", "rust", "toml"
-   		},
-   	},
-   },
+      },
+    },
+  },
 }
