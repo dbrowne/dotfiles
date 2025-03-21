@@ -21,7 +21,7 @@ require("lazy").setup({
     branch = "v2.5",
     import = "nvchad.plugins",
     config = function()
-	    require "options"
+            require "options"
     end,
   },
 
@@ -40,6 +40,20 @@ vim.schedule(function()
 end)
 
 local telescope = require('telescope')
+vim.fn.sign_define('DapBreakpoint', { text = '�~W~O', texthl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ff0000", bold = true })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    vim.cmd [[
+      highlight @comment.documentation guifg=#00ff00 gui=bold
+      highlight @doc_comment guifg=#00ff00 gui=bold
+    ]]
+  end
+})
+
+
 
 telescope.setup {
   defaults = {
@@ -51,4 +65,3 @@ telescope.setup {
     }
   }
 }
-
