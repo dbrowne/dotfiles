@@ -59,3 +59,10 @@ vim.keymap.set('n', '<C-q>', function() dap.terminate() end, { desc = "Quit Debu
 vim.keymap.set('n', '<F8>', function() dapui.open() end, { desc = "Open Debug UI" })
 vim.keymap.set('n', '<F9>', function() dapui.close() end, { desc = "Close Debug UI" })
 vim.keymap.set('n', '<Leader>d', function() dapui.toggle() end, { desc = "Toggle Debug UI" })
+
+-- Neogit Keybindings
+map("n", "<Leader>gg", "<cmd>Neogit<CR>", { desc = "Open Neogit" })
+map("n", "<Leader>gc", "<cmd>Neogit commit<CR>", { desc = "Commit in Neogit" })
+map("n", "<Leader>gp", "<cmd>Neogit pull<CR>", { desc = "Pull in Neogit" })
+map("n", "<Leader>gP", "<cmd>Neogit push<CR>", { desc = "Push in Neogit" })
+map("n", "<Leader>gl", "<cmd>Neogit log<CR>", { desc = "Git Log in Neogit" })
