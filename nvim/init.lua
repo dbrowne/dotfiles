@@ -34,13 +34,16 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "nvchad.autocmds"
+require('render-markdown').setup({
+    render_modes = { 'n', 'c', 't' },
+})
 
 vim.schedule(function()
   require "mappings"
 end)
 
 local telescope = require('telescope')
-vim.fn.sign_define('DapBreakpoint', { text = '�~W~O', texthl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+vim.fn.sign_define('DapBreakpoint', { text = '�', texthl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
 vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ff0000", bold = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -65,3 +68,20 @@ telescope.setup {
     }
   }
 }
+vim.keymap.set("n", "gx", function()
+  local url = vim.fn.expand("<cfile>")
+  if url:match("^https?://") then
+    -- Linux (uses xdg-open)
+    vim.fn.jobstart({ "xdg-open", url }, { detach = true })
+
+    -- macOS: uncomment this line instead
+    -- vim.fn.jobstart({ "open", url }, { detach = true })
+
+    -- Windows: uncomment this line instead
+    -- vim.fn.jobstart({ "start", url }, { detach = true, shell = true })
+  else
+    print("Not a valid URL: " .. url)
+  end
+end, { desc = "Open URL under cursor", noremap = true, silent = true })
+
+

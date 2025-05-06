@@ -11,7 +11,15 @@ return {
       require "configs.lspconfig"
     end,
   },
-
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+},
   {
     'mrcjkb/rustaceanvim',
     version = '^5', -- Recommended
@@ -126,14 +134,67 @@ return {
     lazy=false,
     config = true
 },
+{
+  "kdheepak/lazygit.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim"
+  },
+  cmd = "LazyGit",
+  keys = {
+    { "<leader>tt", "<cmd>LazyGit<CR>", desc = "Open LazyGit" }
+  },
+  config = function()
+    vim.g.lazygit_floating_window_winblend = 0 -- transparency
+    vim.g.lazygit_floating_window_scaling_factor = 1.0
+    vim.g.lazygit_use_neovim_remote = true
+  end
+},
+
 
   {
     'nvim-treesitter/nvim-treesitter',
     opts = {
       ensure_installed = {
         "vim", "lua", "vimdoc",
-        "html", "css", "rust", "toml"
+        "html", "latex", "css", "rust", "toml"
       },
     },
   },
+  -- ~/.config/nvim/lua/custom/plugins.lua
+
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("gitsigns").setup {
+        signs = {
+          add          = { text = "│" },
+          change       = { text = "│" },
+          delete       = { text = "_" },
+          topdelete    = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked    = { text = "┆" },
+        },
+        signcolumn = true,
+        numhl      = false,
+        linehl     = false,
+        word_diff  = false,
+        watch_gitdir = {
+          interval = 1000,
+          follow_files = true
+        },
+        attach_to_untracked = true,
+        current_line_blame = false,
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+          delay = 1000,
+          ignore_whitespace = false,
+        },
+        update_debounce = 200,
+        status_formatter = nil, -- Use default
+      }
+    end,
+  },
 }
+
