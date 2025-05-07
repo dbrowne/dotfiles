@@ -55,3 +55,8 @@ cmake
 make
 libprotobuf-dev
 protobuf-compiler
+gping
+xsel
+tre-command
+procs
+duf
