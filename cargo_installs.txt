@@ -1,0 +1,25 @@
+bat
+ripgrep
+du-dust
+bottom
+exa
+cargo-generate
+bpf-linker
+nutshell
+edma
+mdbook
+wasm-pack
+diesel_cli --no-default-features --features postgres
+libpq
+xtask
+git-delta
+cargo-expand
+cargo-sort
+flamegraph
+cargo-tarpaulin
+cargo-audit
+cargo-asm
+git-cliff
+proptest
+git-delta
+cargo-depgraph

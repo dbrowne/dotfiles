@@ -1,3 +1,7 @@
+curl
+git
+graphviz
+fswebcam
 gitk
 iftop
 nethogs
