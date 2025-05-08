@@ -2,52 +2,32 @@ return {
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
-    opts = require "configs.conform",
+    opts = require("configs.conform"),
   },
 
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require "configs.lspconfig"
+      require("configs.lspconfig")
     end,
   },
+
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "echasnovski/mini.nvim"
+    },
     opts = {},
-},
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-    ft = "rust",
-    config = function ()
-      local mason_registry = require('mason-registry')
-      local codelldb = mason_registry.get_package("codelldb")
-      local extension_path = codelldb:get_install_path() .. "/extension/"
-      local codelldb_path = extension_path .. "adapter/codelldb"
-      local liblldb_path = extension_path .. "lldb/lib/liblldb.so" -- Linux users, change accordingly
-
-      local cfg = require('rustaceanvim.config')
-
-      vim.g.rustaceanvim = {
-        dap = {
-          adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
-        },
-      }
-    end
   },
 
+
   {
-    'rust-lang/rust.vim',
+    "rust-lang/rust.vim",
     ft = "rust",
-    init = function ()
+    init = function()
       vim.g.rustfmt_autosave = 1
-    end
+    end,
   },
 
   {
@@ -58,32 +38,16 @@ return {
   },
 
   {
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
     config = function()
-      local dap, dapui = require("dap"), require("dapui")
+      local dap = require("dap")
+      local dapui = require("dapui")
 
-      -- Automatically open and close the DAP UI
-      dap.listeners.before.attach.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
-      end
+      dap.listeners.before.attach.dapui_config = function() dapui.open() end
+      dap.listeners.before.launch.dapui_config = function() dapui.open() end
+      dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
+      dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-      -- Configure DAP Adapter for Rust (codelldb)
-      dap.adapters.lldb = {
-        type = "executable",
-        command = require('mason-registry').get_package("codelldb"):get_install_path() .. "/extension/adapter/codelldb",
-        name = "lldb",
-      }
-
-      -- DAP Configurations for Rust
       dap.configurations.rust = {
         {
           name = "Launch Rust Program",
@@ -101,58 +65,62 @@ return {
   },
 
   {
-    'rcarriga/nvim-dap-ui',
-    dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
+    },
     config = function()
       require("dapui").setup()
     end,
   },
 
   {
-    'saecki/crates.nvim',
-    ft = {"toml"},
+    "saecki/crates.nvim",
+    ft = { "toml" },
     config = function()
       require("crates").setup {
         completion = {
           cmp = {
-            enabled = true
+            enabled = true,
           },
         },
       }
-      require('cmp').setup.buffer({
-        sources = { { name = "crates" }}
+      require("cmp").setup.buffer({
+        sources = { { name = "crates" } }
       })
-    end
+    end,
   },
-{
-    "TimUntersberger/neogit",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "sindrets/diffview.nvim",
-        "nvim-telescope/telescope.nvim"
-    },
-    lazy=false,
-    config = true
-},
-{
-  "kdheepak/lazygit.nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim"
-  },
-  cmd = "LazyGit",
-  keys = {
-    { "<leader>tt", "<cmd>LazyGit<CR>", desc = "Open LazyGit" }
-  },
-  config = function()
-    vim.g.lazygit_floating_window_winblend = 0 -- transparency
-    vim.g.lazygit_floating_window_scaling_factor = 1.0
-    vim.g.lazygit_use_neovim_remote = true
-  end
-},
-
 
   {
-    'nvim-treesitter/nvim-treesitter',
+    "TimUntersberger/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim"
+    },
+    lazy = false,
+    config = true,
+  },
+
+  {
+    "kdheepak/lazygit.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim"
+    },
+    cmd = "LazyGit",
+    keys = {
+      { "<leader>tt", "<cmd>LazyGit<CR>", desc = "Open LazyGit" },
+    },
+    config = function()
+      vim.g.lazygit_floating_window_winblend = 0
+      vim.g.lazygit_floating_window_scaling_factor = 1.0
+      vim.g.lazygit_use_neovim_remote = true
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
         "vim", "lua", "vimdoc",
@@ -160,7 +128,6 @@ return {
       },
     },
   },
-  -- ~/.config/nvim/lua/custom/plugins.lua
 
   {
     "lewis6991/gitsigns.nvim",
@@ -176,23 +143,23 @@ return {
           untracked    = { text = "┆" },
         },
         signcolumn = true,
-        numhl      = false,
-        linehl     = false,
-        word_diff  = false,
+        numhl = false,
+        linehl = false,
+        word_diff = false,
         watch_gitdir = {
           interval = 1000,
-          follow_files = true
+          follow_files = true,
         },
         attach_to_untracked = true,
         current_line_blame = false,
         current_line_blame_opts = {
           virt_text = true,
-          virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+          virt_text_pos = "eol",
           delay = 1000,
           ignore_whitespace = false,
         },
         update_debounce = 200,
-        status_formatter = nil, -- Use default
+        status_formatter = nil,
       }
     end,
   },
