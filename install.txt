@@ -60,3 +60,7 @@ xsel
 tre-command
 procs
 duf
+tree
+indicator-multiload
+rcs
+emacs-lucid
