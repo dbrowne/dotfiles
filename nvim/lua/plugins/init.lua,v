@@ -1,23 +1,13 @@
-head	1.3;
+head	1.1;
 access;
 symbols;
 locks
-	djb:1.3; strict;
+	djb:1.1; strict;
 comment	@# @;
 
 
-1.3
-date	2025.05.08.22.33.21;	author djb;	state Exp;
-branches;
-next	1.2;
-
-1.2
-date	2025.03.14.23.10.46;	author djb;	state Exp;
-branches;
-next	1.1;
-
 1.1
-date	2025.02.12.07.07.11;	author djb;	state Exp;
+date	2025.04.28.05.43.02;	author djb;	state Exp;
 branches;
 next	;
 
@@ -26,9 +16,9 @@ desc
 @@
 
 
-1.3
+1.1
 log
-@*** empty log message ***
+@Initial revision
 @
 text
 @return {
@@ -44,15 +34,6 @@ text
       require "configs.lspconfig"
     end,
   },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@@module 'render-markdown'
-    ---@@type render.md.UserConfig
-    opts = {},
-},
   {
     'mrcjkb/rustaceanvim',
     version = '^5', -- Recommended
@@ -189,7 +170,7 @@ text
     opts = {
       ensure_installed = {
         "vim", "lua", "vimdoc",
-        "html", "latex", "css", "rust", "toml"
+        "html", "css", "rust", "toml"
       },
     },
   },
@@ -231,63 +212,4 @@ text
   },
 }
 
-@
-
-
-1.2
-log
-@*** empty log message ***
-@
-text
-@a7 1
-  -- These are some examples, uncomment them if you want to see them work!
-d15 8
-a22 2
-    'wakatime/vim-wakatime',
-  },
-d33 2
-a34 3
-      -- local liblldb_path = extension_path.. "lldb/lib/liblldb.dylib"
-	-- If you are on Linux, replace the line above with the line below:
-      local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
-d52 2
-a53 1
-{
-d58 1
-a58 1
-},
-d63 3
-a65 1
-			local dap, dapui = require("dap"), require("dapui")
-d78 23
-a100 1
-		end,
-d107 2
-a108 2
-			require("dapui").setup()
-		end,
-d127 37
-d166 33
-a198 8
-   	'nvim-treesitter/nvim-treesitter',
-   	oopts = {
-   		ensure_installed = {
-   			"vim", "lua", "vimdoc",
-        "html", "css", "rust", "toml"
-   		},
-   	},
-   },
-d200 1
-@
-
-
-1.1
-log
-@Initial revision
-@
-text
-@d48 6
-d75 1
-a75 1
-    'rcarriga/nvim-dap-ui', 
 @

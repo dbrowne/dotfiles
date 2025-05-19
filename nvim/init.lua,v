@@ -1,18 +1,13 @@
-head	1.2;
+head	1.1;
 access;
 symbols;
 locks
-	djb:1.2; strict;
+	djb:1.1; strict;
 comment	@# @;
 
 
-1.2
-date	2025.03.14.23.18.46;	author djb;	state Exp;
-branches;
-next	1.1;
-
 1.1
-date	2025.03.14.23.13.47;	author djb;	state Exp;
+date	2025.04.28.07.18.43;	author djb;	state Exp;
 branches;
 next	;
 
@@ -21,9 +16,9 @@ desc
 @@
 
 
-1.2
+1.1
 log
-@*** empty log message ***
+@Initial revision
 @
 text
 @vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
@@ -49,7 +44,7 @@ require("lazy").setup({
     branch = "v2.5",
     import = "nvchad.plugins",
     config = function()
-	    require "options"
+            require "options"
     end,
   },
 
@@ -68,6 +63,20 @@ vim.schedule(function()
 end)
 
 local telescope = require('telescope')
+vim.fn.sign_define('DapBreakpoint', { text = '�', texthl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#ff0000", bold = true })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    vim.cmd [[
+      highlight @@comment.documentation guifg=#00ff00 gui=bold
+      highlight @@doc_comment guifg=#00ff00 gui=bold
+    ]]
+  end
+})
+
+
 
 telescope.setup {
   defaults = {
@@ -79,24 +88,21 @@ telescope.setup {
     }
   }
 }
+vim.keymap.set("n", "gx", function()
+  local url = vim.fn.expand("<cfile>")
+  if url:match("^https?://") then
+    -- Linux (uses xdg-open)
+    vim.fn.jobstart({ "xdg-open", url }, { detach = true })
 
--- Function to search Rust standard library and dependencies
-local function search_rust_sources()
-  local rust_src = vim.fn.systemlist("rustc --print sysroot")[1] .. "/lib/rustlib/src/rust"
-  require('telescope.builtin').find_files({
-    search_dirs = { "src", "target/debug/deps", "~/.cargo/registry/src", rust_src },
-  })
-end
+    -- macOS: uncomment this line instead
+    -- vim.fn.jobstart({ "open", url }, { detach = true })
 
-vim.api.nvim_set_keymap('n', '<leader>fr', '<cmd>lua search_rust_sources()<CR>', { noremap = true, silent = true })
-
-@
+    -- Windows: uncomment this line instead
+    -- vim.fn.jobstart({ "start", url }, { detach = true, shell = true })
+  else
+    print("Not a valid URL: " .. url)
+  end
+end, { desc = "Open URL under cursor", noremap = true, silent = true })
 
 
-1.1
-log
-@Initial revision
-@
-text
-@d41 24
 @
