@@ -39,7 +39,7 @@ libseccomp2
 libssh-dev
 openssh-server
 openssh-client
-flatpack
+flatpak
 nfs-utils
 nfs-common
 libcrypto
