@@ -64,3 +64,4 @@ tree
 indicator-multiload
 rcs
 emacs-lucid
+libfuse2
