@@ -1,13 +1,28 @@
-head	1.1;
+head	1.4;
 access;
 symbols;
 locks
-	djb:1.1; strict;
+	djb:1.4; strict;
 comment	@# @;
 
 
+1.4
+date	2025.05.28.17.38.58;	author djb;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2025.05.21.05.14.36;	author djb;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2025.03.14.23.10.46;	author djb;	state Exp;
+branches;
+next	1.1;
+
 1.1
-date	2025.04.28.05.43.02;	author djb;	state Exp;
+date	2025.02.12.07.07.11;	author djb;	state Exp;
 branches;
 next	;
 
@@ -16,52 +31,41 @@ desc
 @@
 
 
-1.1
+1.4
 log
-@Initial revision
+@*** empty log message ***
 @
 text
 @return {
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
-    opts = require "configs.conform",
+    opts = require("configs.conform"),
   },
 
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require "configs.lspconfig"
+      require("configs.lspconfig")
     end,
   },
+
   {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-    ft = "rust",
-    config = function ()
-      local mason_registry = require('mason-registry')
-      local codelldb = mason_registry.get_package("codelldb")
-      local extension_path = codelldb:get_install_path() .. "/extension/"
-      local codelldb_path = extension_path .. "adapter/codelldb"
-      local liblldb_path = extension_path .. "lldb/lib/liblldb.so" -- Linux users, change accordingly
-
-      local cfg = require('rustaceanvim.config')
-
-      vim.g.rustaceanvim = {
-        dap = {
-          adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
-        },
-      }
-    end
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "echasnovski/mini.nvim"
+    },
+    opts = {},
   },
 
+
   {
-    'rust-lang/rust.vim',
+    "rust-lang/rust.vim",
     ft = "rust",
-    init = function ()
+    init = function()
       vim.g.rustfmt_autosave = 1
-    end
+    end,
   },
 
   {
@@ -72,32 +76,16 @@ text
   },
 
   {
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
     config = function()
-      local dap, dapui = require("dap"), require("dapui")
+      local dap = require("dap")
+      local dapui = require("dapui")
 
-      -- Automatically open and close the DAP UI
-      dap.listeners.before.attach.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
-      end
+      dap.listeners.before.attach.dapui_config = function() dapui.open() end
+      dap.listeners.before.launch.dapui_config = function() dapui.open() end
+      dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
+      dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-      -- Configure DAP Adapter for Rust (codelldb)
-      dap.adapters.lldb = {
-        type = "executable",
-        command = require('mason-registry').get_package("codelldb"):get_install_path() .. "/extension/adapter/codelldb",
-        name = "lldb",
-      }
-
-      -- DAP Configurations for Rust
       dap.configurations.rust = {
         {
           name = "Launch Rust Program",
@@ -115,66 +103,74 @@ text
   },
 
   {
-    'rcarriga/nvim-dap-ui',
-    dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
+    },
     config = function()
       require("dapui").setup()
     end,
   },
 
   {
-    'saecki/crates.nvim',
-    ft = {"toml"},
+    "saecki/crates.nvim",
+    ft = { "toml" },
     config = function()
       require("crates").setup {
         completion = {
           cmp = {
-            enabled = true
+            enabled = true,
           },
         },
       }
-      require('cmp').setup.buffer({
-        sources = { { name = "crates" }}
+      require("cmp").setup.buffer({
+        sources = { { name = "crates" } }
       })
-    end
+    end,
   },
-{
-    "TimUntersberger/neogit",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "sindrets/diffview.nvim",
-        "nvim-telescope/telescope.nvim"
-    },
-    lazy=false,
-    config = true
-},
-{
-  "kdheepak/lazygit.nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim"
-  },
-  cmd = "LazyGit",
-  keys = {
-    { "<leader>tt", "<cmd>LazyGit<CR>", desc = "Open LazyGit" }
-  },
-  config = function()
-    vim.g.lazygit_floating_window_winblend = 0 -- transparency
-    vim.g.lazygit_floating_window_scaling_factor = 1.0
-    vim.g.lazygit_use_neovim_remote = true
-  end
-},
-
 
   {
-    'nvim-treesitter/nvim-treesitter',
+    "TimUntersberger/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim"
+    },
+    lazy = false,
+    config = true,
+  },
+
+  {
+    "kdheepak/lazygit.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim"
+    },
+    cmd = "LazyGit",
+    keys = {
+      { "<leader>tt", "<cmd>LazyGit<CR>", desc = "Open LazyGit" },
+    },
+    config = function()
+      vim.g.lazygit_floating_window_winblend = 0
+      vim.g.lazygit_floating_window_scaling_factor = 1.0
+      vim.g.lazygit_use_neovim_remote = true
+    end,
+  },
+{
+    'brianhuster/live-preview.nvim',
+    dependencies = {
+        'nvim-telescope/telescope.nvim',
+    },
+},
+  {
+    "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
         "vim", "lua", "vimdoc",
-        "html", "css", "rust", "toml"
+        "html", "latex", "css", "rust", "toml"
       },
     },
   },
-  -- ~/.config/nvim/lua/custom/plugins.lua
 
   {
     "lewis6991/gitsigns.nvim",
@@ -190,26 +186,156 @@ text
           untracked    = { text = "┆" },
         },
         signcolumn = true,
-        numhl      = false,
-        linehl     = false,
-        word_diff  = false,
+        numhl = false,
+        linehl = false,
+        word_diff = false,
         watch_gitdir = {
           interval = 1000,
-          follow_files = true
+          follow_files = true,
         },
         attach_to_untracked = true,
         current_line_blame = false,
         current_line_blame_opts = {
           virt_text = true,
-          virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+          virt_text_pos = "eol",
           delay = 1000,
           ignore_whitespace = false,
         },
         update_debounce = 200,
-        status_formatter = nil, -- Use default
+        status_formatter = nil,
       }
     end,
   },
 }
 
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d121 6
+a126 1
+
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+    opts = require "configs.conform",
+a7 1
+  -- These are some examples, uncomment them if you want to see them work!
+d11 1
+a11 1
+      require "configs.lspconfig"
+d14 1
+d16 6
+a21 1
+    'wakatime/vim-wakatime',
+d23 2
+d26 1
+a26 3
+    'mrcjkb/rustaceanvim',
+    version = '^5', -- Recommended
+    lazy = false, -- This plugin is already lazy
+d28 3
+a30 16
+    config = function ()
+      local mason_registry = require('mason-registry')
+      local codelldb = mason_registry.get_package("codelldb")
+      local extension_path = codelldb:get_install_path() .. "/extension/"
+      local codelldb_path = extension_path .. "adapter/codelldb"
+      -- local liblldb_path = extension_path.. "lldb/lib/liblldb.dylib"
+	-- If you are on Linux, replace the line above with the line below:
+      local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+      local cfg = require('rustaceanvim.config')
+
+      vim.g.rustaceanvim = {
+        dap = {
+          adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+        },
+      }
+    end
+a33 7
+    'rust-lang/rust.vim',
+    ft = "rust",
+    init = function ()
+      vim.g.rustfmt_autosave = 1
+    end
+  },
+{
+d38 1
+a38 1
+},
+d41 1
+a41 1
+    'mfussenegger/nvim-dap',
+d43 22
+a64 14
+			local dap, dapui = require("dap"), require("dapui")
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
+		end,
+d68 5
+a72 2
+    'rcarriga/nvim-dap-ui',
+    dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
+d74 2
+a75 2
+			require("dapui").setup()
+		end,
+d79 2
+a80 2
+    'saecki/crates.nvim',
+    ft = {"toml"},
+d85 1
+a85 1
+            enabled = true
+d89 2
+a90 2
+      require('cmp').setup.buffer({
+        sources = { { name = "crates" }}
+d92 1
+a92 1
+    end
+d96 70
+a165 8
+   	'nvim-treesitter/nvim-treesitter',
+   	oopts = {
+   		ensure_installed = {
+   			"vim", "lua", "vimdoc",
+        "html", "css", "rust", "toml"
+   		},
+   	},
+   },
+d167 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d48 6
+d75 1
+a75 1
+    'rcarriga/nvim-dap-ui', 
 @
