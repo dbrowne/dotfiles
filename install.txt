@@ -65,3 +65,4 @@ indicator-multiload
 rcs
 emacs-lucid
 libfuse2
+python3-pip
