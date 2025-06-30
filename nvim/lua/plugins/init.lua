@@ -1,3 +1,4 @@
+
 return {
   {
     "stevearc/conform.nvim",
@@ -22,47 +23,89 @@ return {
     opts = {},
   },
 
+  {
+    "MunifTanjim/nui.nvim",
+    branch = "main",
+  },
 
   {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    keys = {
+      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle file tree" },
+    },
+    config = function()
+      vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+      require("neo-tree").setup({
+        enable_git_status = true,
+        filesystem = {
+          filtered_items = {
+            hide_gitignored = false,
+            hide_dotfiles = false,
+          },
+          use_libuv_file_watcher = true,
+          renderers = {
+            file = {
+              { "icon" },
+              {
+                "name",
+                use_git_status_colors = false,
+                zindex = 10,
+                highlight = function(_, node)
+                  if node.git_status and node.git_status.ignored then
+                    return "NeoTreeGitIgnored"
+                  end
+                end,
+              },
+            },
+          },
+        },
+      })
     end,
   },
 
+  -- Include rustaceanvim from separate file
+  require("plugins.rustacenvim"),
+
   {
-  "mbbill/undotree",
-  cmd = "UndotreeToggle",
-  keys = {
-    { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" }
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
+    keys = {
+      { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" }
+    },
+    init = function()
+      vim.o.undofile = true
+      vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
+      vim.fn.mkdir(vim.o.undodir, "p")
+    end
   },
-  init = function()
-    vim.o.undofile = true
-    vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
-    vim.fn.mkdir(vim.o.undodir, "p")
-  end
-},
 
-
-{
-  "pocco81/auto-save.nvim",
-  config = function()
-    require("auto-save").setup({
-      enabled = true,
-      execution_message = "autosaved...",
-      events = { "InsertLeave", "TextChanged" },  -- customize as needed
-      conditions = {
-        exists = true,
-        filename_is_not = {},
-        filetype_is_not = {},
-        modifiable = true
-      },
-      write_all_buffers = false,
-    })
-  end
-},
-
+  {
+    "pocco81/auto-save.nvim",
+    config = function()
+      require("auto-save").setup({
+        enabled = true,
+        execution_message = "autosaved...",
+        events = { "InsertLeave", "TextChanged" },
+        conditions = {
+          exists = true,
+          filename_is_not = {},
+          filetype_is_not = {},
+          modifiable = true
+        },
+        write_all_buffers = false,
+      })
+    end
+  },
 
   {
     "nvzone/typr",
@@ -71,6 +114,7 @@ return {
     cmd = { "Typr", "TyprStats" },
   },
 
+  -- Keep nvim-dap but remove Rust-specific configuration (handled by rustaceanvim)
   {
     "mfussenegger/nvim-dap",
     config = function()
@@ -82,19 +126,8 @@ return {
       dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
       dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-      dap.configurations.rust = {
-        {
-          name = "Launch Rust Program",
-          type = "lldb",
-          request = "launch",
-          program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
-          end,
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          args = {},
-        },
-      }
+      -- Rust DAP configuration is now handled by rustaceanvim
+      -- Add other language configurations here if needed
     end,
   },
 
@@ -152,12 +185,14 @@ return {
       vim.g.lazygit_use_neovim_remote = true
     end,
   },
-{
+
+  {
     'brianhuster/live-preview.nvim',
     dependencies = {
-        'nvim-telescope/telescope.nvim',
+      'nvim-telescope/telescope.nvim',
     },
-},
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -203,4 +238,3 @@ return {
     end,
   },
 }
-

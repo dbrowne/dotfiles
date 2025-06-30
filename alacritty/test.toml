@@ -1,0 +1,10 @@
+[font.normal]
+family = "3270 Nerd Font"
+
+[colors.primary]
+background = "#0a0a0a" 
+foreground = "#00ff00"
+
+
+[selection]
+save_to_clipboard = true

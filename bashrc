@@ -138,6 +138,7 @@ alias gBL='git for-each-ref --sort=committerdate refs/heads/ --format='\''%(HEAD
 alias GR='cd ~/GRepository'
 alias gT='git tag -l -n99'
 alias gRS='git remote show origin'
+alias l='exa -lha --icons'
 
 export PATH=$PATH:/home/djb/GRepository/git-radar/:.
 

@@ -1,10 +1,30 @@
-head	1.4;
+head	1.8;
 access;
 symbols;
 locks
-	djb:1.4; strict;
+	djb:1.8; strict;
 comment	@# @;
 
+
+1.8
+date	2025.06.28.18.49.58;	author djb;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2025.06.25.13.57.13;	author djb;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2025.06.13.18.05.03;	author djb;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2025.06.13.04.40.14;	author djb;	state Exp;
+branches;
+next	1.4;
 
 1.4
 date	2025.05.28.17.38.58;	author djb;	state Exp;
@@ -31,18 +51,20 @@ desc
 @@
 
 
-1.4
+1.8
 log
 @*** empty log message ***
 @
 text
-@return {
+@
+return {
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require("configs.conform"),
   },
 
+  { 'wakatime/vim-wakatime', lazy = false},
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -59,13 +81,88 @@ text
     opts = {},
   },
 
+  {
+    "MunifTanjim/nui.nvim",
+    branch = "main",
+  },
 
   {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    keys = {
+      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle file tree" },
+    },
+    config = function()
+      vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+      require("neo-tree").setup({
+        enable_git_status = true,
+        filesystem = {
+          filtered_items = {
+            hide_gitignored = false,
+            hide_dotfiles = false,
+          },
+          use_libuv_file_watcher = true,
+          renderers = {
+            file = {
+              { "icon" },
+              {
+                "name",
+                use_git_status_colors = false,
+                zindex = 10,
+                highlight = function(_, node)
+                  if node.git_status and node.git_status.ignored then
+                    return "NeoTreeGitIgnored"
+                  end
+                end,
+              },
+            },
+          },
+        },
+      })
     end,
+  },
+
+  -- Include rustaceanvim from separate file
+  require("plugins.rustacenvim"),
+
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
+    keys = {
+      { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" }
+    },
+    init = function()
+      vim.o.undofile = true
+      vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
+      vim.fn.mkdir(vim.o.undodir, "p")
+    end
+  },
+
+  {
+    "pocco81/auto-save.nvim",
+    config = function()
+      require("auto-save").setup({
+        enabled = true,
+        execution_message = "autosaved...",
+        events = { "InsertLeave", "TextChanged" },
+        conditions = {
+          exists = true,
+          filename_is_not = {},
+          filetype_is_not = {},
+          modifiable = true
+        },
+        write_all_buffers = false,
+      })
+    end
   },
 
   {
@@ -75,6 +172,7 @@ text
     cmd = { "Typr", "TyprStats" },
   },
 
+  -- Keep nvim-dap but remove Rust-specific configuration (handled by rustaceanvim)
   {
     "mfussenegger/nvim-dap",
     config = function()
@@ -86,19 +184,8 @@ text
       dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
       dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-      dap.configurations.rust = {
-        {
-          name = "Launch Rust Program",
-          type = "lldb",
-          request = "launch",
-          program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
-          end,
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          args = {},
-        },
-      }
+      -- Rust DAP configuration is now handled by rustaceanvim
+      -- Add other language configurations here if needed
     end,
   },
 
@@ -156,12 +243,14 @@ text
       vim.g.lazygit_use_neovim_remote = true
     end,
   },
-{
+
+  {
     'brianhuster/live-preview.nvim',
     dependencies = {
-        'nvim-telescope/telescope.nvim',
+      'nvim-telescope/telescope.nvim',
     },
-},
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -207,7 +296,171 @@ text
     end,
   },
 }
+@
 
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a24 3
+{
+  "MunifTanjim/nui.nvim",
+
+d26 2
+d29 1
+a29 2
+
+},
+d32 37
+a68 36
+  "nvim-neo-tree/neo-tree.nvim",
+  branch = "v3.x",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "MunifTanjim/nui.nvim",
+  },
+  keys = {
+    { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle file tree" },
+  },
+  config = function()
+    vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+    vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+    vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+    vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+    require("neo-tree").setup({
+      enable_git_status = true,
+      filesystem = {
+        filtered_items = {
+          hide_gitignored = false,  -- ✅ Show .gitignored files
+          hide_dotfiles = false,    -- ✅ Optional: show .dotfiles
+        },
+        use_libuv_file_watcher = true,
+        renderers = {
+          file = {
+            { "icon" },
+            {
+              "name",
+              use_git_status_colors = false,
+              zindex = 10,
+              highlight = function(_, node)
+                if node.git_status and node.git_status.ignored then
+                  return "NeoTreeGitIgnored"
+                end
+              end,
+d72 3
+a74 5
+      },
+    })
+
+  end,
+},
+d76 2
+d80 5
+a84 2
+    "rust-lang/rust.vim",
+    ft = "rust",
+d86 4
+a89 2
+      vim.g.rustfmt_autosave = 1
+    end,
+d93 16
+a108 31
+  "mbbill/undotree",
+  cmd = "UndotreeToggle",
+  keys = {
+    { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" }
+  },
+  init = function()
+    vim.o.undofile = true
+    vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
+    vim.fn.mkdir(vim.o.undodir, "p")
+  end
+},
+
+
+{
+  "pocco81/auto-save.nvim",
+  config = function()
+    require("auto-save").setup({
+      enabled = true,
+      execution_message = "autosaved...",
+      events = { "InsertLeave", "TextChanged" },  -- customize as needed
+      conditions = {
+        exists = true,
+        filename_is_not = {},
+        filetype_is_not = {},
+        modifiable = true
+      },
+      write_all_buffers = false,
+    })
+  end
+},
+
+d117 1
+d129 2
+a130 13
+      dap.configurations.rust = {
+        {
+          name = "Launch Rust Program",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = {},
+        },
+      }
+d188 2
+a189 1
+{
+d192 1
+a192 1
+        'nvim-telescope/telescope.nvim',
+d194 2
+a195 1
+},
+a240 1
+
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@a74 2
+    -- Custom highlight for ignored files
+    vim.api.nvim_set_hl(0, "NeoTreeGitIgnored", { fg = "#888888", italic = true })
+d141 1
+a141 1
+          type = "lldb",
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d24 55
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d8 1
+d33 33
 @
 
 

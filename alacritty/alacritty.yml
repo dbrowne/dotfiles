@@ -1,0 +1,293 @@
+# Alacritty Configuration for Visual Cut and Paste
+# Save this as ~/.config/alacritty/alacritty.yml (Linux/macOS) or %APPDATA%\alacritty\alacritty.yml (Windows)
+
+# Window configuration
+window:
+  # Window dimensions (changes require restart)
+  dimensions:
+    columns: 120
+    lines: 30
+
+  # Window position (changes require restart)
+  position:
+    x: 100
+    y: 100
+
+  # Window padding (changes require restart)
+  padding:
+    x: 8
+    y: 8
+
+  # Allow terminal applications to change Alacritty's window title
+  dynamic_title: true
+
+  # Window decorations
+  decorations: full
+
+  # Background opacity
+  opacity: 0.95
+
+# Scrolling configuration
+scrolling:
+  # Maximum number of lines in the scrollback buffer
+  history: 10000
+
+  # Scrolling distance multiplier
+  multiplier: 3
+
+# Font configuration
+font:
+  # Normal (roman) font face
+  normal:
+    family: "3270 Nerd Font" # IBM 3270 Terminal Font
+    style: Regular
+
+  # Bold font face
+  bold:
+    family: "3270 Nerd Font"
+    style: Bold
+
+  # Italic font face
+  italic:
+    family: "3270 Nerd Font"
+    style: Italic
+
+  # Bold italic font face
+  bold_italic:
+    family: "3270 Nerd Font"
+    style: Bold Italic
+
+  # Point size (3270 font works well at slightly larger sizes)
+  size: 14.0
+
+  # Offset is the extra space around each character
+  # 3270 font benefits from slight adjustments for better spacing
+  offset:
+    x: 0
+    y: 1
+
+  # Glyph offset determines the locations of the glyphs within their cells
+  # Fine-tune for 3270 font's character alignment
+  glyph_offset:
+    x: 0
+    y: 0
+
+  # Use built-in font fallback
+  builtin_box_drawing: true
+
+# Color scheme optimized for 3270 Nerd Font (IBM Terminal inspired)
+colors:
+  # Default colors - IBM 3270 terminal inspired
+  primary:
+    background: '#0a0a0a'  # Deep black like classic terminals
+    foreground: '#00ff00'  # Classic green phosphor
+
+  # Normal colors - IBM terminal palette
+  normal:
+    black:   '#0a0a0a'
+    red:     '#ff5555'
+    green:   '#00ff00'  # Classic terminal green
+    yellow:  '#ffff55'
+    blue:    '#5555ff'
+    magenta: '#ff55ff'
+    cyan:    '#55ffff'
+    white:   '#ffffff'
+
+  # Bright colors
+  bright:
+    black:   '#555555'
+    red:     '#ff8888'
+    green:   '#88ff88'
+    yellow:  '#ffff88'
+    blue:    '#8888ff'
+    magenta: '#ff88ff'
+    cyan:    '#88ffff'
+    white:   '#ffffff'
+
+  # Selection colors - subtle highlight that works with green text
+  selection:
+    text: '#0a0a0a'
+    background: '#00aa00'
+
+  # Cursor colors - bright green to match theme
+  cursor:
+    text: '#0a0a0a'
+    cursor: '#00ff00'
+
+  # Dim colors (when dimmed text is used)
+  dim:
+    black:   '#131313'
+    red:     '#905555'
+    green:   '#559055'
+    yellow:  '#909055'
+    blue:    '#555590'
+    magenta: '#905590'
+    cyan:    '#559090'
+    white:   '#909090'
+
+# Visual bell configuration
+bell:
+  animation: EaseOutExpo
+  duration: 0
+  color: '#ffffff'
+
+# Mouse configuration for copy/paste
+mouse:
+  # Click settings
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+  # If this is true, the cursor is temporarily hidden when typing
+  hide_when_typing: true
+
+# Selection configuration
+selection:
+  # This string contains all characters that are used as separators for "semantic words" in Alacritty
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+
+  # When set to true, selected text will be copied to the primary clipboard
+  save_to_clipboard: true
+
+# Cursor configuration
+cursor:
+  # Cursor style
+  style:
+    # Cursor shape
+    shape: Block
+
+    # Cursor blinking state
+    blinking: On
+
+  # Vi mode cursor style
+  vi_mode_style:
+    shape: Block
+    blinking: Off
+
+  # Cursor blinking interval in milliseconds
+  blink_interval: 750
+
+  # If this is true, the cursor will be rendered as a hollow box when the window is not focused
+  unfocused_hollow: true
+
+  # Thickness of the cursor relative to the cell width as floating point number from 0.0 to 1.0
+  thickness: 0.15
+
+# Live config reload (changes require restart)
+live_config_reload: true
+
+# Working directory
+working_directory: None
+
+# Key bindings for copy/paste and navigation
+key_bindings:
+  # Copy/Paste bindings
+  - { key: C,         mods: Control|Shift, action: Copy                     }
+  - { key: V,         mods: Control|Shift, action: Paste                    }
+  - { key: Insert,    mods: Shift,         action: PasteSelection           }
+
+  # Vi Mode bindings (for visual selection)
+  - { key: Space,     mods: Control|Shift, mode: ~Search,    action: ToggleViMode }
+  - { key: Space,     mods: Control|Shift, mode: Vi|~Search, action: ScrollToBottom }
+  - { key: Escape,                         mode: Vi|~Search, action: ClearSelection }
+  - { key: I,                              mode: Vi|~Search, action: ToggleViMode }
+  - { key: I,                              mode: Vi|~Search, action: ScrollToBottom }
+  - { key: C,         mods: Control,       mode: Vi|~Search, action: ToggleViMode }
+  - { key: Y,         mods: Control,       mode: Vi|~Search, action: ScrollLineUp }
+  - { key: E,         mods: Control,       mode: Vi|~Search, action: ScrollLineDown }
+  - { key: G,                              mode: Vi|~Search, action: ScrollToTop }
+  - { key: G,         mods: Shift,         mode: Vi|~Search, action: ScrollToBottom }
+  - { key: B,         mods: Control,       mode: Vi|~Search, action: ScrollPageUp }
+  - { key: F,         mods: Control,       mode: Vi|~Search, action: ScrollPageDown }
+  - { key: U,         mods: Control,       mode: Vi|~Search, action: ScrollHalfPageUp }
+  - { key: D,         mods: Control,       mode: Vi|~Search, action: ScrollHalfPageDown }
+  - { key: Y,                              mode: Vi|~Search, action: Copy }
+  - { key: Y,                              mode: Vi|~Search, action: ClearSelection }
+  - { key: Copy,                           mode: Vi|~Search, action: ClearSelection }
+  - { key: V,                              mode: Vi|~Search, action: ToggleNormalSelection }
+  - { key: V,         mods: Shift,         mode: Vi|~Search, action: ToggleLineSelection }
+  - { key: V,         mods: Control,       mode: Vi|~Search, action: ToggleBlockSelection }
+  - { key: V,         mods: Alt,           mode: Vi|~Search, action: ToggleSemanticSelection }
+
+  # Vi motion bindings
+  - { key: H,                              mode: Vi|~Search, action: Left }
+  - { key: J,                              mode: Vi|~Search, action: Down }
+  - { key: K,                              mode: Vi|~Search, action: Up }
+  - { key: L,                              mode: Vi|~Search, action: Right }
+  - { key: Up,                             mode: Vi|~Search, action: Up }
+  - { key: Down,                           mode: Vi|~Search, action: Down }
+  - { key: Left,                           mode: Vi|~Search, action: Left }
+  - { key: Right,                          mode: Vi|~Search, action: Right }
+  - { key: Key0,                           mode: Vi|~Search, action: First }
+  - { key: Key4,      mods: Shift,         mode: Vi|~Search, action: Last }
+  - { key: Key6,      mods: Shift,         mode: Vi|~Search, action: FirstOccupied }
+  - { key: H,         mods: Shift,         mode: Vi|~Search, action: High }
+  - { key: M,         mods: Shift,         mode: Vi|~Search, action: Middle }
+  - { key: L,         mods: Shift,         mode: Vi|~Search, action: Low }
+  - { key: B,                              mode: Vi|~Search, action: SemanticLeft }
+  - { key: W,                              mode: Vi|~Search, action: SemanticRight }
+  - { key: E,                              mode: Vi|~Search, action: SemanticRightEnd }
+  - { key: B,         mods: Shift,         mode: Vi|~Search, action: WordLeft }
+  - { key: W,         mods: Shift,         mode: Vi|~Search, action: WordRight }
+  - { key: E,         mods: Shift,         mode: Vi|~Search, action: WordRightEnd }
+  - { key: Key5,      mods: Shift,         mode: Vi|~Search, action: Bracket }
+  - { key: Slash,                          mode: Vi|~Search, action: SearchForward }
+  - { key: Slash,     mods: Shift,         mode: Vi|~Search, action: SearchBackward }
+  - { key: N,                              mode: Vi|~Search, action: SearchNext }
+  - { key: N,         mods: Shift,         mode: Vi|~Search, action: SearchPrevious }
+
+  # Search mode bindings
+  - { key: Return,                mode: Search|Vi,  action: SearchConfirm }
+  - { key: Escape,                mode: Search,     action: SearchCancel }
+  - { key: C,         mods: Control,       mode: Search,     action: SearchCancel }
+  - { key: U,         mods: Control,       mode: Search,     action: SearchClear }
+  - { key: W,         mods: Control,       mode: Search,     action: SearchDeleteWord }
+  - { key: P,         mods: Control,       mode: Search,     action: SearchHistoryPrevious }
+  - { key: N,         mods: Control,       mode: Search,     action: SearchHistoryNext }
+  - { key: Up,                             mode: Search,     action: SearchHistoryPrevious }
+  - { key: Down,                           mode: Search,     action: SearchHistoryNext }
+  - { key: Return,                         mode: Search|~Vi, action: SearchFocusNext }
+  - { key: Return,    mods: Shift,         mode: Search|~Vi, action: SearchFocusPrevious }
+
+  # Window management
+  - { key: N,         mods: Control|Shift, action: SpawnNewInstance }
+  - { key: Return,    mods: Control|Shift, action: SpawnNewInstance }
+
+  # Font size control
+  - { key: Plus,      mods: Control,       action: IncreaseFontSize }
+  - { key: Minus,     mods: Control,       action: DecreaseFontSize }
+  - { key: Key0,      mods: Control,       action: ResetFontSize }
+
+  # Scrolling
+  - { key: PageUp,    mods: Shift,         action: ScrollPageUp }
+  - { key: PageDown,  mods: Shift,         action: ScrollPageDown }
+  - { key: Home,      mods: Shift,         action: ScrollToTop }
+  - { key: End,       mods: Shift,         action: ScrollToBottom }
+
+  # Mouse wheel scrolling
+  - { key: Up,        mods: Control,       action: ScrollLineUp }
+  - { key: Down,      mods: Control,       action: ScrollLineDown }
+
+# Mouse bindings
+mouse_bindings:
+  # Copy selection on release when not in Vi mode
+  - { mouse: Left,                         action: ExpandSelection }
+  - { mouse: Left,    mods: Shift,         action: ExpandSelection }
+  - { mouse: Left,    mods: Control,       action: ExpandSelection }
+  - { mouse: Left,    mods: Alt,           action: ExpandSelection }
+  - { mouse: Right,   mods: Control,       action: ExpandSelection }
+  - { mouse: Right,   mods: Shift,         action: ExpandSelection }
+  - { mouse: Middle,                       action: PasteSelection }
+
+# Debug configuration
+debug:
+  # Display the time it takes to redraw each frame
+  render_timer: false
+
+  # Keep the log file after quitting Alacritty
+  persistent_logging: false
+
+  # Log level
+  log_level: Warn
+
+  # Print all received window events
+  print_events: false

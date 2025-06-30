@@ -1,0 +1,565 @@
+# Alacritty Configuration for Visual Cut and Paste with 3270 Nerd Font
+# Save this as ~/.config/alacritty/alacritty.toml
+
+# General configuration
+[general]
+live_config_reload = true
+
+# Window configuration
+[window]
+decorations = "full"
+dynamic_title = true
+opacity = 0.92
+
+[window.dimensions]
+columns = 120
+lines = 30
+
+[window.padding]
+x = 8
+y = 8
+
+[window.position]
+x = 100
+y = 100
+
+# Scrolling configuration
+[scrolling]
+history = 10000
+multiplier = 3
+
+# Font configuration - IBM 3270 Nerd Font
+[font]
+size = 14.0
+builtin_box_drawing = true
+
+[font.normal]
+family = "3270 Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "3270 Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "3270 Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "3270 Nerd Font"
+style = "Bold Italic"
+
+[font.offset]
+x = 0
+y = 1
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+# Color scheme - IBM 3270 Terminal inspired
+[colors.primary]
+background = "#0a0a0a"
+foreground = "#00ff00"
+
+[colors.normal]
+black = "#0a0a0a"
+red = "#ff5555"
+green = "#00ff00"
+yellow = "#ffff55"
+blue = "#5555ff"
+magenta = "#ff55ff"
+cyan = "#55ffff"
+white = "#ffffff"
+
+[colors.bright]
+black = "#555555"
+red = "#ff8888"
+green = "#88ff88"
+yellow = "#ffff88"
+blue = "#8888ff"
+magenta = "#ff88ff"
+cyan = "#88ffff"
+white = "#ffffff"
+
+[colors.dim]
+black = "#131313"
+red = "#905555"
+green = "#559055"
+yellow = "#909055"
+blue = "#555590"
+magenta = "#905590"
+cyan = "#559090"
+white = "#909090"
+
+[colors.selection]
+text = "#0a0a0a"
+background = "#00aa00"
+
+[colors.cursor]
+text = "#0a0a0a"
+cursor = "#00ff00"
+
+# Bell configuration
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+color = "#ffffff"
+
+# Mouse configuration (Fixed for context menu and warnings)
+[mouse]
+hide_when_typing = true
+
+
+# Selection configuration
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+# Cursor configuration
+[cursor]
+blink_interval = 750
+thickness = 0.15
+unfocused_hollow = true
+
+[cursor.style]
+shape = "Block"
+blinking = "On"
+
+[cursor.vi_mode_style]
+shape = "Block"
+blinking = "Off"
+
+# Debug configuration
+[debug]
+render_timer = false
+persistent_logging = false
+log_level = "Warn"
+print_events = false
+
+# Keyboard bindings
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "Insert"
+mods = "Shift"
+action = "PasteSelection"
+
+# Vi Mode bindings
+[[keyboard.bindings]]
+key = "Space"
+mods = "Control|Shift"
+mode = "~Search"
+action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key = "Space"
+mods = "Control|Shift"
+mode = "Vi|~Search"
+action = "ScrollToBottom"
+
+[[keyboard.bindings]]
+key = "Escape"
+mode = "Vi|~Search"
+action = "ClearSelection"
+
+[[keyboard.bindings]]
+key = "I"
+mode = "Vi|~Search"
+action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ToggleViMode"
+
+# Vi scrolling bindings
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ScrollLineUp"
+
+[[keyboard.bindings]]
+key = "E"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ScrollLineDown"
+
+[[keyboard.bindings]]
+key = "G"
+mode = "Vi|~Search"
+action = "ScrollToTop"
+
+[[keyboard.bindings]]
+key = "G"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "ScrollToBottom"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ScrollPageUp"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ScrollPageDown"
+
+[[keyboard.bindings]]
+key = "U"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ScrollHalfPageUp"
+
+[[keyboard.bindings]]
+key = "D"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ScrollHalfPageDown"
+
+# Vi copy bindings
+[[keyboard.bindings]]
+key = "Y"
+mode = "Vi|~Search"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "Y"
+mode = "Vi|~Search"
+action = "ClearSelection"
+
+# Vi selection mode bindings
+[[keyboard.bindings]]
+key = "V"
+mode = "Vi|~Search"
+action = "ToggleNormalSelection"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "ToggleLineSelection"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control"
+mode = "Vi|~Search"
+action = "ToggleBlockSelection"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Alt"
+mode = "Vi|~Search"
+action = "ToggleSemanticSelection"
+
+# Vi motion bindings
+[[keyboard.bindings]]
+key = "H"
+mode = "Vi|~Search"
+action = "Left"
+
+[[keyboard.bindings]]
+key = "J"
+mode = "Vi|~Search"
+action = "Down"
+
+[[keyboard.bindings]]
+key = "K"
+mode = "Vi|~Search"
+action = "Up"
+
+[[keyboard.bindings]]
+key = "L"
+mode = "Vi|~Search"
+action = "Right"
+
+[[keyboard.bindings]]
+key = "Up"
+mode = "Vi|~Search"
+action = "Up"
+
+[[keyboard.bindings]]
+key = "Down"
+mode = "Vi|~Search"
+action = "Down"
+
+[[keyboard.bindings]]
+key = "Left"
+mode = "Vi|~Search"
+action = "Left"
+
+[[keyboard.bindings]]
+key = "Right"
+mode = "Vi|~Search"
+action = "Right"
+
+# Vi line position bindings
+[[keyboard.bindings]]
+key = "Key0"
+mode = "Vi|~Search"
+action = "First"
+
+[[keyboard.bindings]]
+key = "Key4"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "Last"
+
+[[keyboard.bindings]]
+key = "Key6"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "FirstOccupied"
+
+# Vi screen position bindings
+[[keyboard.bindings]]
+key = "H"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "High"
+
+[[keyboard.bindings]]
+key = "M"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "Middle"
+
+[[keyboard.bindings]]
+key = "L"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "Low"
+
+# Vi word movement bindings
+[[keyboard.bindings]]
+key = "B"
+mode = "Vi|~Search"
+action = "SemanticLeft"
+
+[[keyboard.bindings]]
+key = "W"
+mode = "Vi|~Search"
+action = "SemanticRight"
+
+[[keyboard.bindings]]
+key = "E"
+mode = "Vi|~Search"
+action = "SemanticRightEnd"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "WordLeft"
+
+[[keyboard.bindings]]
+key = "W"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "WordRight"
+
+[[keyboard.bindings]]
+key = "E"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "WordRightEnd"
+
+# Vi bracket matching
+[[keyboard.bindings]]
+key = "Key5"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "Bracket"
+
+# Vi search bindings
+[[keyboard.bindings]]
+key = "Slash"
+mode = "Vi|~Search"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key = "Slash"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "SearchBackward"
+
+[[keyboard.bindings]]
+key = "N"
+mode = "Vi|~Search"
+action = "SearchNext"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Shift"
+mode = "Vi|~Search"
+action = "SearchPrevious"
+
+# Search mode bindings
+[[keyboard.bindings]]
+key = "Return"
+mode = "Search|Vi"
+action = "SearchConfirm"
+
+[[keyboard.bindings]]
+key = "Escape"
+mode = "Search"
+action = "SearchCancel"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control"
+mode = "Search"
+action = "SearchCancel"
+
+[[keyboard.bindings]]
+key = "U"
+mods = "Control"
+mode = "Search"
+action = "SearchClear"
+
+[[keyboard.bindings]]
+key = "W"
+mods = "Control"
+mode = "Search"
+action = "SearchDeleteWord"
+
+[[keyboard.bindings]]
+key = "P"
+mods = "Control"
+mode = "Search"
+action = "SearchHistoryPrevious"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control"
+mode = "Search"
+action = "SearchHistoryNext"
+
+[[keyboard.bindings]]
+key = "Up"
+mode = "Search"
+action = "SearchHistoryPrevious"
+
+[[keyboard.bindings]]
+key = "Down"
+mode = "Search"
+action = "SearchHistoryNext"
+
+[[keyboard.bindings]]
+key = "Return"
+mode = "Search|~Vi"
+action = "SearchFocusNext"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+mode = "Search|~Vi"
+action = "SearchFocusPrevious"
+
+# Window management bindings
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+# Font size control bindings
+[[keyboard.bindings]]
+key = "Plus"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+# Scrolling bindings
+[[keyboard.bindings]]
+key = "PageUp"
+mods = "Shift"
+action = "ScrollPageUp"
+
+[[keyboard.bindings]]
+key = "PageDown"
+mods = "Shift"
+action = "ScrollPageDown"
+
+[[keyboard.bindings]]
+key = "Home"
+mods = "Shift"
+action = "ScrollToTop"
+
+[[keyboard.bindings]]
+key = "End"
+mods = "Shift"
+action = "ScrollToBottom"
+
+[[keyboard.bindings]]
+key = "Up"
+mods = "Control"
+action = "ScrollLineUp"
+
+[[keyboard.bindings]]
+key = "Down"
+mods = "Control"
+action = "ScrollLineDown"
+
+# Mouse bindings (Fixed for right-click context menu)
+[[mouse.bindings]]
+mouse = "Left"
+action = "ExpandSelection"
+
+[[mouse.bindings]]
+mouse = "Left"
+mods = "Shift"
+action = "ExpandSelection"
+
+[[mouse.bindings]]
+mouse = "Left"
+mods = "Control"
+action = "ExpandSelection"
+
+[[mouse.bindings]]
+mouse = "Left"
+mods = "Alt"
+action = "ExpandSelection"
+
+# Middle click for paste
+[[mouse.bindings]]
+mouse = "Middle"
+action = "PasteSelection"
+
+# RIGHT CLICK CONTEXT MENU - Remove conflicting right-click bindings
+# Comment out or remove these to enable system context menu:
+# [[mouse.bindings]]
+# mouse = "Right"
+# mods = "Control" 
+# action = "ExpandSelection"
+
+# [[mouse.bindings]]
+# mouse = "Right"
+# mods = "Shift"
+# action = "ExpandSelection"
