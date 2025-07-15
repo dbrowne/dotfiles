@@ -1,10 +1,15 @@
-head	1.1;
+head	1.2;
 access;
 symbols;
 locks
-	djb:1.1; strict;
+	djb:1.2; strict;
 comment	@# @;
 
+
+1.2
+date	2025.07.09.00.24.07;	author djb;	state Exp;
+branches;
+next	1.1;
 
 1.1
 date	2025.05.09.04.31.54;	author djb;	state Exp;
@@ -16,9 +21,9 @@ desc
 @@
 
 
-1.1
+1.2
 log
-@Initial revision
+@*** empty log message ***
 @
 text
 @return {
@@ -41,13 +46,16 @@ text
       end
 
       if type(pkg.get_install_path) ~= "function" then
-        vim.defer_fn(try_configure_dap, 100) -- retry in 100ms
+        vim.defer_fn(try_configure_dap, 100)
         return
       end
 
       local extension_path = pkg:get_install_path() .. "/extension/"
       local codelldb_path = extension_path .. "adapter/codelldb"
-      local liblldb_path = extension_path .. "lldb/lib/liblldb.so" -- adjust for macOS
+      local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+
+      -- Dynamically resolve project root at runtime
+      local root_dir = vim.fn.getcwd()
 
       vim.g.rustaceanvim = {
         dap = {
@@ -62,20 +70,23 @@ text
           },
         },
         tools = {
-    autoSetHints = true,
-  },
-  server = {
-    settings = {
-      ["rust-analyzer"] = {
-        rustfmt = {
-          extraArgs = { "--config-path", vim.fn.getcwd() },
+          autoSetHints = true,
         },
-      },
-    },
-  },
+        server = {
+           on_attach = function(client)
+      client.server_capabilities.documentFormattingProvider = false
+    end,
+          settings = {
+            ["rust-analyzer"] = {
+              rustfmt = {
+                extraArgs = { "--config-path", root_dir }, -- dynamic, not hardcoded
+              },
+            },
+          },
+        },
       }
 
-      vim.notify("[rustaceanvim] DAP configured successfully", vim.log.levels.INFO)
+      vim.notify("[rustaceanvim] DAP + rustfmt config-path set: " .. root_dir, vim.log.levels.INFO)
     end
 
     require("mason-registry").refresh(function()
@@ -83,4 +94,34 @@ text
     end)
   end,
 }
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d21 1
+a21 1
+        vim.defer_fn(try_configure_dap, 100) -- retry in 100ms
+d27 4
+a30 1
+      local liblldb_path = extension_path .. "lldb/lib/liblldb.so" -- adjust for macOS
+d45 13
+a57 7
+    autoSetHints = true,
+  },
+  server = {
+    settings = {
+      ["rust-analyzer"] = {
+        rustfmt = {
+          extraArgs = { "--config-path", vim.fn.getcwd() },
+a58 3
+      },
+    },
+  },
+d61 1
+a61 1
+      vim.notify("[rustaceanvim] DAP configured successfully", vim.log.levels.INFO)
 @

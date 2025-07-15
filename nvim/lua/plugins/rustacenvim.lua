@@ -46,7 +46,7 @@ return {
         },
         server = {
            on_attach = function(client)
-      client.server_capabilities.documentFormattingProvider = false
+      --client.server_capabilities.documentFormattingProvider = false
     end,
           settings = {
             ["rust-analyzer"] = {

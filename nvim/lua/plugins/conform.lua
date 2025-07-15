@@ -1,24 +1,15 @@
 return {
-  "stevearc/conform.nvim",
+	  "stevearc/conform.nvim",
   event = { "BufWritePre" },
   config = function()
     require("conform").setup({
       formatters_by_ft = {
-        rust = { "rustfmt_wrapper" },
+        rust = { "rustfmt" },  -- Use standard rustfmt
       },
-      formatters = {
-        rustfmt_wrapper = {
-          command = "~/.local/bin/rustfmt_project",
-          stdin = false,
-        },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = false,
       },
-    })
-
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.rs",
-      callback = function(args)
-        require("conform").format({ bufnr = args.buf, lsp_fallback = false })
-      end,
     })
   end,
 }
