@@ -68,3 +68,15 @@ libfuse2
 python3-pip
 psensor
 htop
+conky
+postgresql 
+postgresql-contrib
+libpq-dev
+gh
+docker
+libdbus-1-dev 
+pkg-config
+tree-sitter-cli
+lua5.1
+liblua5.1.0-dev
+ncal
