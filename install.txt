@@ -81,3 +81,6 @@ lua5.1
 liblua5.1.0-dev
 ncal
 docker-compose
+libmysqlclient-dev
+sqlite3
+linux-tools-common linux-tools-generic
