@@ -84,3 +84,7 @@ docker-compose
 libmysqlclient-dev
 sqlite3
 linux-tools-common linux-tools-generic
+openjdk-21-jdk
+dbus-x11 dconf-editor
+net-tools
+smartmontools
