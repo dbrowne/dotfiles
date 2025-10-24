@@ -1,0 +1,255 @@
+# Custom format: username@hostname:$PWD>[starship status]
+format = """
+$username@$hostname:$directory>$git_branch$git_status$all
+"""
+
+
+[custom.git_main_comparison]
+command = '''
+BASE=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+if [ -z "$BASE" ]; then
+  BASE=$(git rev-parse --verify main 2>/dev/null && echo "main" || echo "master")
+fi
+AHEAD=$(git rev-list --count $BASE..HEAD 2>/dev/null)
+BEHIND=$(git rev-list --count HEAD..$BASE 2>/dev/null)
+if [ -n "$AHEAD" ] && [ -n "$BEHIND" ] && [ "$AHEAD" != "0" -o "$BEHIND" != "0" ]; then
+  echo "⇡$AHEAD⇣$BEHIND vs $BASE"
+fi
+'''
+when = "git rev-parse --is-inside-work-tree 2>/dev/null"
+format = '[\[$output\]](bold yellow)'
+shell = ["bash", "--noprofile", "--norc"]
+
+# Show username always (not just when root or SSH)
+[username]
+format = '[$user]($style)'
+show_always = true
+style_user = 'bold green'
+style_root = 'bold red'
+
+# Show hostname always
+[hostname]
+format = '[$hostname]($style)'
+ssh_only = false
+style = 'bold green'
+
+# Directory settings
+[directory]
+format = '[$path]($style)'
+style = 'bold cyan'
+truncation_length = 0  # Show full path
+truncate_to_repo = false  # Don't truncate to git repo root
+
+# Git branch
+[git_branch]
+format = '\[[$symbol$branch]($style)\]'
+symbol = ''
+style = 'bold purple'
+
+# Git status
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+# File change indicators with counts
+modified = '[~${count}](yellow)'        # ~3 for 3 modified files
+staged = '[+${count}](green)'          # +2 for 2 staged files  
+untracked = '?${count}'       # ?1 for 1 untracked file
+deleted = '[✘${count}](red)'         # ✘1 for 1 deleted file
+renamed = '[»${count}](purple)'         # »1 for 1 renamed file
+stashed = '[\$${count}](cyan)'         # $2 for 2 stashed changes
+
+# Ahead/behind indicators
+ahead = '[⇡${count}](green)'
+behind = '[⇣${count}](red)'
+diverged = '[⚠🔥⇕⇡${ahead_count}⇣${behind_count}🔥⚠](bold red)'
+
+
+[aws]
+format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+
+[bun]
+format = '\[[$symbol($version)]($style)\]'
+
+[c]
+format = '\[[$symbol($version(-$name))]($style)\]'
+
+[cpp]
+format = '\[[$symbol($version(-$name))]($style)\]'
+
+[cmake]
+format = '\[[$symbol($version)]($style)\]'
+
+[cmd_duration]
+format = '\[[⏱ $duration]($style)\]'
+
+[cobol]
+format = '\[[$symbol($version)]($style)\]'
+
+[conda]
+format = '\[[$symbol$environment]($style)\]'
+
+[crystal]
+format = '\[[$symbol($version)]($style)\]'
+
+[daml]
+format = '\[[$symbol($version)]($style)\]'
+
+[dart]
+format = '\[[$symbol($version)]($style)\]'
+
+[deno]
+format = '\[[$symbol($version)]($style)\]'
+
+[docker_context]
+format = '\[[$symbol$context]($style)\]'
+
+[dotnet]
+format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
+
+[elixir]
+format = '\[[$symbol($version \(OTP $otp_version\))]($style)\]'
+
+[elm]
+format = '\[[$symbol($version)]($style)\]'
+
+[erlang]
+format = '\[[$symbol($version)]($style)\]'
+
+[fennel]
+format = '\[[$symbol($version)]($style)\]'
+
+[fossil_branch]
+format = '\[[$symbol$branch]($style)\]'
+
+[gcloud]
+format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
+
+[golang]
+format = '\[[$symbol($version)]($style)\]'
+
+[gradle]
+format = '\[[$symbol($version)]($style)\]'
+
+[guix_shell]
+format = '\[[$symbol]($style)\]'
+
+[haskell]
+format = '\[[$symbol($version)]($style)\]'
+
+[haxe]
+format = '\[[$symbol($version)]($style)\]'
+
+[helm]
+format = '\[[$symbol($version)]($style)\]'
+
+[hg_branch]
+format = '\[[$symbol$branch]($style)\]'
+
+[java]
+format = '\[[$symbol($version)]($style)\]'
+
+[julia]
+format = '\[[$symbol($version)]($style)\]'
+
+[kotlin]
+format = '\[[$symbol($version)]($style)\]'
+
+[kubernetes]
+format = '\[[$symbol$context( \($namespace\))]($style)\]'
+
+[lua]
+format = '\[[$symbol($version)]($style)\]'
+
+[memory_usage]
+format = '\[$symbol[$ram( | $swap)]($style)\]'
+
+[meson]
+format = '\[[$symbol$project]($style)\]'
+
+[nim]
+format = '\[[$symbol($version)]($style)\]'
+
+[nix_shell]
+format = '\[[$symbol$state( \($name\))]($style)\]'
+
+[nodejs]
+format = '\[[$symbol($version)]($style)\]'
+
+[ocaml]
+format = '\[[$symbol($version)(\($switch_indicator$switch_name\))]($style)\]'
+
+[opa]
+format = '\[[$symbol($version)]($style)\]'
+
+[openstack]
+format = '\[[$symbol$cloud(\($project\))]($style)\]'
+
+[os]
+format = '\[[$symbol]($style)\]'
+
+[package]
+format = '\[[$symbol$version]($style)\]'
+
+[perl]
+format = '\[[$symbol($version)]($style)\]'
+
+[php]
+format = '\[[$symbol($version)]($style)\]'
+
+[pijul_channel]
+format = '\[[$symbol$channel]($style)\]'
+
+[pixi]
+format = '\[[$symbol$version( $environment)]($style)\]'
+
+[pulumi]
+format = '\[[$symbol$stack]($style)\]'
+
+[purescript]
+format = '\[[$symbol($version)]($style)\]'
+
+[python]
+format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
+
+[raku]
+format = '\[[$symbol($version-$vm_version)]($style)\]'
+
+[red]
+format = '\[[$symbol($version)]($style)\]'
+
+[ruby]
+format = '\[[$symbol($version)]($style)\]'
+
+[rust]
+format = '\[[$symbol($version)]($style)\]'
+
+[scala]
+format = '\[[$symbol($version)]($style)\]'
+
+[spack]
+format = '\[[$symbol$environment]($style)\]'
+
+[sudo]
+format = '\[[as $symbol]($style)\]'
+
+[swift]
+format = '\[[$symbol($version)]($style)\]'
+
+[terraform]
+format = '\[[$symbol$workspace]($style)\]'
+
+[time]
+format = '\[[$time]($style)\]'
+
+
+[vagrant]
+format = '\[[$symbol($version)]($style)\]'
+
+[vlang]
+format = '\[[$symbol($version)]($style)\]'
+
+[zig]
+format = '\[[$symbol($version)]($style)\]'
+
+[solidity]
+format = '\[[$symbol($version)]($style)\]'
