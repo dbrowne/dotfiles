@@ -6,13 +6,23 @@ $username@$hostname:$directory>$git_branch$git_status$all
 
 [custom.git_main_comparison]
 command = '''
+FETCH_HEAD=".git/FETCH_HEAD"
+if [ ! -f "$FETCH_HEAD" ] || [ $(find "$FETCH_HEAD" -mmin +1 2>/dev/null | wc -l) -gt 0 ]; then
+  git fetch origin >/dev/null 2>&1 &
+fi
+
 BASE=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
 if [ -z "$BASE" ]; then
-  BASE=$(git rev-parse --verify main 2>/dev/null && echo "main" || echo "master")
+  BASE=$(git rev-parse --verify origin/main 2>/dev/null && echo "main" || echo "master")
+else
+  BASE=$(echo $BASE)
 fi
-AHEAD=$(git rev-list --count $BASE..HEAD 2>/dev/null)
-BEHIND=$(git rev-list --count HEAD..$BASE 2>/dev/null)
-if [ -n "$AHEAD" ] && [ -n "$BEHIND" ] && [ "$AHEAD" != "0" -o "$BEHIND" != "0" ]; then
+
+# Compare against origin/BASE not local BASE
+AHEAD=$(git rev-list --count origin/$BASE..HEAD 2>/dev/null || echo "0")
+BEHIND=$(git rev-list --count HEAD..origin/$BASE 2>/dev/null || echo "0")
+
+if [ "$AHEAD" != "0" ] || [ "$BEHIND" != "0" ]; then
   echo "⇡$AHEAD⇣$BEHIND vs $BASE"
 fi
 '''
@@ -31,7 +41,7 @@ style_root = 'bold red'
 [hostname]
 format = '[$hostname]($style)'
 ssh_only = false
-style = 'bold green'
+style = 'bold yellow'
 
 # Directory settings
 [directory]

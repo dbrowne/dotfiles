@@ -108,7 +108,7 @@ export CLICOLOR=1
 
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
-alias vi='/usr/bin/vim'
+alias vi='/opt/nvim-linux-x86_64/bin/nvim'
 
 #alias ls='/bin/ls -Gfh'
 
@@ -135,11 +135,38 @@ alias gG='git log --oneline --abbrev-commit --all --graph --decorate --color'
 alias gSL='git stash list --pretty=format:"%C(red)%h%C(reset) - %C(dim yellow)(%C(bold magenta)%gd%C(dim yellow))%C(reset) %<(70,trunc)%s %C(green)(%cr) %C(bold blue)<%an>%C(reset)"'
 alias gBL='git for-each-ref --sort=committerdate refs/heads/ --format='\''%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'\'''
 
+alias kdenlive='DRI_PRIME=1 kdenlive'
 alias GR='cd ~/GRepository'
 alias gT='git tag -l -n99'
 alias gRS='git remote show origin'
-alias l='exa -lhar --icons'
+alias l='exa -lha --icons'
 
-export PATH=$PATH:/home/djb/GRepository/git-radar/:.
+alias mobile="sudo prime-select on-demand && sudo systemctl restart gdm3"
+alias docked="sudo prime-select nvidia && sudo systemctl restart gdm3"
 
-export PS1="$PS1\$(git-radar --bash --fetch)"
+#export PATH=$PATH:/home/djb/.cargo/bin:/home/djb/GRepository/git-radar/:.
+#export PATH=$PATH:/usr/local/cuda/bin:/opt/nvim-linux-x86_64/bin:/home/djb/.cargo/bin:.
+#export PATH=$PATH:/opt/nvim-linux-x86_64/bin:/home/djb/.local/share/solana/install/active_release/bin
+
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+PATH="$HOME/.local/bin:$PATH"
+PATH="$PATH:/usr/local/cuda/bin"
+PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+PATH="$PATH:$HOME/.cargo/bin"
+PATH="$PATH:."
+export PATH
+
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
+
+#export PS1="$PS1\$(git-radar --bash --fetch)"
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#
+
+#export PATH="$HOME/.local/bin:$PATH"
+
+export MLT_PROFILE_USE_NVIDIA=1
+eval "$(starship init bash)"
