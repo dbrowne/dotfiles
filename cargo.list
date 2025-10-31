@@ -33,4 +33,5 @@ rust-gdbgui
 rust-lldb
 starship
 tree-sitter
+websocat
 wasm-pack
