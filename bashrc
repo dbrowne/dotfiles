@@ -140,6 +140,7 @@ alias GR='cd ~/GRepository'
 alias gT='git tag -l -n99'
 alias gRS='git remote show origin'
 alias l='exa -lha --icons'
+alias nv="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"      # # Use: nv ./your-cuda-app  when disconnected
 
 alias mobile="sudo prime-select on-demand && sudo systemctl restart gdm3"
 alias docked="sudo prime-select nvidia && sudo systemctl restart gdm3"
